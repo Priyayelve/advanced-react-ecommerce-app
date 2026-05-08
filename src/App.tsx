@@ -10,9 +10,13 @@ interface Product {
   image: string;
 }
 
+interface CartItem extends Product {
+  cartId: number;
+}
+
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   useEffect(() => {
     fetch("https://fakestoreapi.com/products")
@@ -21,12 +25,16 @@ function App() {
   }, []);
 
   const addToCart = (product: Product) => {
-    setCart([...cart, product]);
+    const newItem: CartItem = {
+      ...product,
+      cartId: Date.now() + Math.random(),
+    };
+
+    setCart([...cart, newItem]);
   };
 
-  const removeFromCart = (id: number) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
-    setCart(updatedCart);
+  const removeFromCart = (cartId: number) => {
+    setCart(cart.filter((item) => item.cartId !== cartId));
   };
 
   const checkout = () => {
@@ -60,9 +68,11 @@ function App() {
           <p>Your cart is empty.</p>
         ) : (
           cart.map((item) => (
-            <div key={item.id} className="cart-item">
+            <div key={item.cartId} className="cart-item">
               <p>{item.title}</p>
-              <button onClick={() => removeFromCart(item.id)}>Remove</button>
+              <button onClick={() => removeFromCart(item.cartId)}>
+                Remove
+              </button>
             </div>
           ))
         )}
