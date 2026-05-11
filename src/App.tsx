@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
+import "./firebase";
 interface Product {
   id: number;
   title: string;
