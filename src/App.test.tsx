@@ -1,5 +1,5 @@
-import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import { test, expect } from "vitest";
 import App from "./App";
 
 test("renders ecommerce title", () => {
@@ -7,7 +7,7 @@ test("renders ecommerce title", () => {
   
   const titleElement = screen.getByText(/Advanced React E-Commerce App/i);
   
-  expect(titleElement).toBeInTheDocument();
+  expect(titleElement).toBeTruthy();
 });
 test("renders app component", () => {
   render(<App />);
